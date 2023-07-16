@@ -27,9 +27,9 @@ class OrgNode:
         ]
 
         if not non_zero_diffs:
-            return True if len(self) < len(other) else False
+            return len(self) < len(other)
 
-        return True if non_zero_diffs[0] < 0 else False
+        return non_zero_diffs[0] < 0
 
     @property
     def node(self) -> str:
