@@ -7,6 +7,12 @@ from elastic_calculator.errors import IncorrectOrgNodeValueError
 @dataclasses.dataclass
 @total_ordering
 class OrgNode:
+    """
+    Object representing single node (or unit) in an organization structure.
+    Depending on the structure of company, you could think of it as a business unit
+    (Marketing, Finance) or some kind of person (manager).
+    """
+
     levels: tuple[int, ...]
 
     def __repr__(self) -> str:
@@ -15,7 +21,9 @@ class OrgNode:
     def __len__(self) -> int:
         return len(self.levels)
 
-    def __eq__(self, other: "OrgNode") -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, OrgNode):
+            return NotImplemented
         return self.levels == other.levels
 
     def __lt__(self, other: "OrgNode") -> bool:
