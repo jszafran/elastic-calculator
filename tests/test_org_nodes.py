@@ -135,3 +135,20 @@ def test_sort_org_nodes(test_input, expected):
 def test_equality_of_org_nodes(obj_a, obj_b, expected):
     result = obj_a == obj_b
     assert result is expected
+
+
+@pytest.mark.parametrize(
+    "node",
+    (
+        OrgNode.from_str("N01."),
+        OrgNode.from_str("N01.02."),
+        OrgNode.from_str("N01.02.01."),
+        OrgNode.from_str("N01.02.01.01."),
+        OrgNode.from_str("N5."),
+        OrgNode.from_str("N1.2."),
+        OrgNode.from_str("N1.2.3"),
+    ),
+)
+def test_converting_to_string_and_back_to_python_object(node: "OrgNode"):
+    string_representation = node.to_str()
+    assert OrgNode.from_str(string_representation) == node

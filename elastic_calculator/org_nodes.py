@@ -65,4 +65,4 @@ class OrgNode:
         return cls(levels=levels)
 
     def to_str(self) -> str:
-        pass
+        return self.node
