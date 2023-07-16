@@ -111,3 +111,27 @@ def test_org_node_repr(test_input, expected):
 )
 def test_sort_org_nodes(test_input, expected):
     assert sorted(test_input) == expected
+
+
+@pytest.mark.parametrize(
+    "obj_a,obj_b,expected",
+    [
+        (OrgNode.from_str("N01."), OrgNode.from_str("N01."), True),
+        (OrgNode.from_str("N02."), OrgNode.from_str("N02."), True),
+        (OrgNode.from_str("N03."), OrgNode.from_str("N03."), True),
+        (OrgNode.from_str("N05."), OrgNode.from_str("N07."), False),
+        (OrgNode.from_str("N05."), OrgNode.from_str("N05.01."), False),
+        (OrgNode.from_str("N05."), OrgNode.from_str("N05.01."), False),
+        (OrgNode.from_str("N05.05.03."), OrgNode.from_str("N05.05.03."), True),
+        (
+            OrgNode.from_str("N05.05.03."),
+            OrgNode.from_str("N05.05.03.02.10.15."),
+            False,
+        ),
+        (OrgNode.from_str("N05.05.03."), "foo", False),
+        (OrgNode.from_str("N05.05.03."), 1, False),
+    ],
+)
+def test_equality_of_org_nodes(obj_a, obj_b, expected):
+    result = obj_a == obj_b
+    assert result is expected
