@@ -36,12 +36,12 @@ def test_org_node_can_be_constructed_from_valid_string(test_input, expected):
 @pytest.mark.parametrize(
     "test_input,expected",
     (
-        ((1, 1), "OrgNode(N1.1)"),
-        ((1,), "OrgNode(N1)"),
-        ((2, 5), "OrgNode(N2.5)"),
-        ((1, 1, 1, 1, 1), "OrgNode(N1.1.1.1.1)"),
-        ((1, 5, 3), "OrgNode(N1.5.3)"),
-        ((2, 0, 1), "OrgNode(N2.0.1)"),
+        ((1, 1), "OrgNode(N01.01)"),
+        ((1,), "OrgNode(N01)"),
+        ((2, 5), "OrgNode(N02.05)"),
+        ((1, 1, 1, 1, 1), "OrgNode(N01.01.01.01.01)"),
+        ((1, 5, 3), "OrgNode(N01.05.03)"),
+        ((2, 0, 1), "OrgNode(N02.00.01)"),
     ),
 )
 def test_org_node_repr(test_input, expected):

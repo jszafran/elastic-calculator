@@ -41,7 +41,7 @@ class OrgNode:
 
     @property
     def node(self) -> str:
-        return f"N{'.'.join(str(i) for i in self.levels)}"
+        return f"N{'.'.join(f'0{i}' if i < 10 else str(i) for i in self.levels)}"
 
     @classmethod
     def from_str(cls, v: str) -> "OrgNode":
@@ -63,3 +63,6 @@ class OrgNode:
                 f"Cannot construct org node from value {v}."
             )
         return cls(levels=levels)
+
+    def to_str(self) -> str:
+        pass
