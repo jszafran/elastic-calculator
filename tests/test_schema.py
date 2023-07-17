@@ -109,3 +109,61 @@ def test_creating_schema():
 
     assert schema.questions == (q1, q2)
     assert schema.demographics == (d1,)
+
+
+def test_parsing_schema_from_yaml(test_data_dir):
+    print(test_data_dir, "hello!")
+    test_file = test_data_dir / "test_schema.yml"
+
+    q1 = Column(
+        type=ColumnType.QUESTION,
+        code="Q1",
+        text="Q1 text",
+        min_value=1,
+        max_value=6,
+        nullable=True,
+    )
+
+    q2 = Column(
+        type=ColumnType.QUESTION,
+        code="Q2",
+        text="Q2 text",
+        min_value=1,
+        max_value=3,
+        nullable=True,
+    )
+
+    q3 = Column(
+        type=ColumnType.QUESTION,
+        code="Q3",
+        text="Q3 text",
+        min_value=1,
+        max_value=2,
+        nullable=False,
+    )
+
+    d1 = Column(
+        type=ColumnType.DEMOGRAPHICS,
+        code="D1",
+        text="D1 text",
+        min_value=1,
+        max_value=3,
+        nullable=True,
+    )
+
+    d2 = Column(
+        type=ColumnType.DEMOGRAPHICS,
+        code="D2",
+        text="D2 text",
+        min_value=1,
+        max_value=2,
+        nullable=True,
+    )
+
+    schema = Schema.from_yaml(test_file)
+
+    assert schema.questions[0] == q1
+    assert schema.questions[1] == q2
+    assert schema.questions[2] == q3
+    assert schema.demographics[0] == d1
+    assert schema.demographics[1] == d2
