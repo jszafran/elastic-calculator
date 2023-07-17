@@ -69,12 +69,12 @@ class Schema:
             Column(type=ColumnType.QUESTION, **question) for question in questions
         ]
 
-        parsed_demograhpics = [
+        parsed_demographics = [
             Column(type=ColumnType.DEMOGRAPHICS, **demographic)
             for demographic in demographics
         ]
 
         return cls(
             org_node_column_name=org_node_column,
-            columns=tuple(parsed_questions + parsed_demograhpics),
+            columns=tuple(parsed_questions + parsed_demographics),
         )
