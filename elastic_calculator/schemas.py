@@ -1,9 +1,12 @@
 import dataclasses
 import pathlib
 from enum import Enum
+from typing import Self
+from urllib.parse import urlparse
 
 import yaml
 
+from elastic_calculator.aws_utils import text_file_from_s3
 from elastic_calculator.errors import (
     ColumnMinValueMustBeSmallerThanMaxValueError,
     ColumnMissingCodeValueError,
@@ -57,9 +60,20 @@ class Schema:
         return self._columns_of_type(ColumnType.DEMOGRAPHICS)
 
     @classmethod
-    def from_yaml(cls, path: str | pathlib.Path) -> "Schema":
-        with open(path) as f:
-            schema = yaml.safe_load(f)
+    def from_yaml(cls, path: str | pathlib.Path) -> Self:
+        """
+        Factory function for Schema object. Accepts a path in a string or pathlib.Path format.
+        If string path contains valid S3 URL, method will try to read given YAML url from S3.
+        Otherwise, location on local file system is assumed.
+        """
+        if isinstance(path, str) and path.startswith("s3://"):
+            parsed_url = urlparse(path)
+            bucket, key = parsed_url.netloc, parsed_url.path
+            file_content = text_file_from_s3(bucket=bucket, key=key[1:])
+            schema = yaml.safe_load(file_content)
+        else:
+            with open(path) as f:
+                schema = yaml.safe_load(f)
 
         org_node_column = schema.get("org_node_column")
         questions = schema.get("questions")
